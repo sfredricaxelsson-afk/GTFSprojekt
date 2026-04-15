@@ -74,9 +74,10 @@ R2_BUCKET        = os.getenv("R2_BUCKET", "gtfs-cache")
 LOCAL_CACHE_DIR  = Path("./gtfs_cache")
 
 _r2_client = None
+_r2_bucket_ensured = False
 
 def _get_r2():
-    global _r2_client
+    global _r2_client, _r2_bucket_ensured
     if _r2_client is None and R2_ACCOUNT_ID and R2_ACCESS_KEY and R2_SECRET_KEY:
         _r2_client = boto3.client(
             service_name="s3",
@@ -86,6 +87,13 @@ def _get_r2():
             config=Config(signature_version="s3v4"),
             region_name="auto",
         )
+    # Create the bucket if it doesn't exist yet (runs once per process)
+    if _r2_client and not _r2_bucket_ensured:
+        try:
+            _r2_client.head_bucket(Bucket=R2_BUCKET)
+        except ClientError:
+            _r2_client.create_bucket(Bucket=R2_BUCKET)
+        _r2_bucket_ensured = True
     return _r2_client
 
 

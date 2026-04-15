@@ -1,0 +1,8 @@
+flask
+gunicorn
+requests
+protobuf
+gtfs-realtime-bindings
+pandas
+py7zr
+boto3

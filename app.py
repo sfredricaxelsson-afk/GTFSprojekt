@@ -80,11 +80,12 @@ def _get_r2():
     if _r2_client is None and R2_ACCOUNT_ID and R2_ACCESS_KEY and R2_SECRET_KEY:
         _r2_client = boto3.client(
             service_name="s3",
-            endpoint_url=f"https://{R2_ACCOUNT_ID}.r2.cloudflarestorage.com",
+            endpoint_url=f"https://{R2_ACCOUNT_ID}.eu.r2.cloudflarestorage.com/gtfs-cache
+
             aws_access_key_id=R2_ACCESS_KEY,
             aws_secret_access_key=R2_SECRET_KEY,
             config=Config(signature_version="s3v4"),
-            region_name="eu",
+            
         )
     return _r2_client
 

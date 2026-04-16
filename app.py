@@ -84,7 +84,7 @@ def _get_r2():
             aws_access_key_id=R2_ACCESS_KEY,
             aws_secret_access_key=R2_SECRET_KEY,
             config=Config(signature_version="s3v4"),
-            region_name="auto",
+            region_name="eu",
         )
     return _r2_client
 
